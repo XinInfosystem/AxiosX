@@ -1,0 +1,192 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Axios</title>
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<script src="js/axios.min.js"></script>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+</head>
+<body>
+<div id="main" class="container-fluid align-middle" style="margin-top: 20%;">
+  <div class="row justify-content-md-center mb-2">
+    <div class="input-group col-md-5">
+      <input type="text" id="in_data" class="form-control" value="2" >
+      <div class="input-group-append">
+        <button id="btn_get"  onClick="getData()" class="btn btn-primary">GET</button>
+        <button id="btn_post" onClick="postFunction();" class="btn btn-info" >POST</button>
+        <button id="btn_post" onClick="putFunction();" class="btn btn-success" >UPDATE</button>
+        <button id="btn_post" onClick="deleteFunction();" class="btn btn-danger" >DELETE</button>
+      </div>
+    </div>
+  </div>
+  <div class="row justify-content-md-center">
+    <div class="form-group">
+      <div class="input-group">
+        <input id="in_weather" value="KOLKATA" class="form-control" type="text" name="search" placeholder="Search..." />
+        <div class="input-group-append">
+          <button class="btn btn-success" id="btn_weather" onClick="getWeather()" type="submit"> <i class="fas fa-search" aria-hidden="true"></i> Weather </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-9">
+    <div class="list-group"> <a data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" class="list-group-item list-group-item-action flex-column align-items-start active">
+      <div class="d-flex w-100 justify-content-between"> <img class="" src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22286%22%20height%3D%22180%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20286%20180%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_1646c639852%20text%20%7B%20fill%3Argba(255%2C255%2C255%2C.75)%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A14pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_1646c639852%22%3E%3Crect%20width%3D%22286%22%20height%3D%22180%22%20fill%3D%22%23777%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%2299.41666793823242%22%20y%3D%2296.3%22%3EImage%20cap%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E" alt="Card image cap">
+        <div class="card-body">
+          <div class="d-flex w-100 justify-content-between align-middle">
+            <h5 class="mb-1">List group item heading</h5>
+            <small>3 days ago</small> </div>
+          <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
+          <small>Donec id elit non mi porta.</small> </div>
+      </div>
+		<div class="collapse" id="collapseExample">
+  <div class="card card-body">
+    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+  </div>
+</div>
+      </a> <a href="#" class="list-group-item list-group-item-danger list-group-item-action flex-column align-items-start">
+      <div class="d-flex w-100 justify-content-between">
+        <h5 class="mb-1">List group item heading</h5>
+        <small class="text-muted">3 days ago</small> </div>
+      <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
+      <small class="text-muted">Donec id elit non mi porta.</small> </a> <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+      <div class="d-flex w-100 justify-content-between">
+        <h5 class="mb-1">List group item heading</h5>
+        <small class="text-muted">3 days ago</small> </div>
+      <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
+      <small class="text-muted">Donec id elit non mi porta.</small> </a> </div>
+  </div>
+  <div class="row">
+    <div id="output"> </div>
+  </div>
+</div>
+<script>
+
+	var output = document.getElementById('output');
+	var x,res_data;
+				
+	function getData () 
+	{
+		output.innerHTML = 'Loading..'
+		
+		var inputx = document.getElementById('in_data').value;
+		axios.get('https://jsonplaceholder.typicode.com/posts/'+ inputx +'/comments')
+			.then(function (res) {
+				console.log(res);
+				output.className = 'container';
+				x = '';
+				res_data = res.data;
+				for (i in res_data) {
+					x += '<br>ID: ' 	+ res_data[i].id;
+					x += '<br>PostId: ' + res_data[i].postId;
+					x += '<br>Email: ' 	+ res_data[i].email;
+					x += '<br>Name: ' 	+ res_data[i].name;
+					x += '<br>body: ' 	+ res_data[i].body;
+					x += '<hr>';
+				} 
+					
+				output.innerHTML = x;
+					
+			})
+			.catch(function (err) {
+			  output.className = 'container text-danger';
+			  output.innerHTML = err.message;
+			});
+	};
+	
+	/* POST */
+	function postFunction () 
+	{
+		output.innerHTML = 'POST Loading..'
+		var data = JSON.stringify({
+									  title: 'foo',
+									  body: 'bar',
+									  userId: 1
+								  });
+					
+		axios.post('https://jsonplaceholder.typicode.com/posts', JSON.parse(data))
+			.then(function (res) {
+			  console.log(res);			
+			  output.className = 'container';
+			  output.innerHTML = res.status + res.statusText + '\r';
+			  output.innerHTML += JSON.stringify(res.data, null, '\t');
+			})
+			.catch(function (err) {
+			  output.className = 'container text-danger';
+			  output.innerHTML = err.message;
+			});
+	};
+
+	/* Update */
+	function putFunction () 
+	{
+		output.innerHTML = 'UPDATE Loading..'
+		var data = JSON.stringify({
+									  id: 1,
+									  title: 'foo XXX',
+									  body: 'bar XXX',
+									  userId: 1
+								  });
+					
+		axios.put('https://jsonplaceholder.typicode.com/posts/1', JSON.parse(data))
+			.then(function (res) {
+			  console.log(res);			
+			  output.className = 'container';
+			  output.innerHTML = res.status + res.statusText + '\r';
+			  output.innerHTML += JSON.stringify(res.data, null, '\t');
+			})
+			.catch(function (err) {
+			  console.log(err);						
+			  output.className = 'container text-danger';
+			  output.innerHTML = err.message;
+			});
+	};
+
+	/* DELETE */
+	function deleteFunction () 
+	{
+		output.innerHTML = 'DELETE Loading..'
+					
+		axios.put('https://jsonplaceholder.typicode.com/posts/1')
+			.then(function (res) {
+			  console.log(res);			
+			  output.className = 'container';
+			  output.innerHTML = res.status + res.statusText + '\r';
+			  output.innerHTML += JSON.stringify(res.data, null, '\t');
+			})
+			.catch(function (err) {
+			  console.log(err);						
+			  output.className = 'container text-danger';
+			  output.innerHTML = err.message;
+			});
+	};
+	
+	
+	//document.getElementById('btn_weather').onclick = getWeather();
+	function getWeather() 
+	{
+		document.getElementById('main').style.marginTop= '2%';
+		
+		var api 	= "0a94d445ac0549eda5582911182306";
+		var city 	= document.getElementById('in_weather').value;
+		var url 	= "http://api.apixu.com/v1/current.json?key="+api+"&q="+city ;	
+
+		output.innerHTML = 'Loading..'
+
+		 axios.get(url)
+			.then(function (res) {
+				console.log(res);
+				output.className = 'container';
+				output.innerHTML = JSON.stringify(res.data, null, 3);
+			})
+			.catch(function (err) {
+				console.log(err);
+				output.className = 'container text-danger';
+				output.innerHTML = err.message;
+			});
+	}
+
+</script>
+</body>
+</html>
